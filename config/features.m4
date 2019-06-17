@@ -53,7 +53,9 @@ AC_DEFUN([CONFIG_FEATURE_FLAGS],
   ARG_DISBL_SET_WRAP([sig-qtesla], [sig_qtesla],
                      [ENABLE_SIG_QTESLA], [src/sig/qtesla])
   ARG_DISBL_SET_WRAP([sig-dilithium], [sig_dilithium],
-                     [ENABLE_SIG_DILITHIUM], [src/sig/dilithium])                    
+                     [ENABLE_SIG_DILITHIUM], [src/sig/dilithium]) 
+  ARG_DISBL_SET_WRAP([sig-sphincs], [sig_sphincs],
+                     [ENABLE_SIG_SPHINCS], [src/sig/sphincs])                   
 ]
 )
 
@@ -116,6 +118,46 @@ AC_DEFUN([CONFIG_FEATURES],
     AC_DEFINE(OQS_ENABLE_SIG_DILITHIUM_2, 1, "Define to 1 when DILITHIUM_2 enabled")
     AC_DEFINE(OQS_ENABLE_SIG_DILITHIUM_3, 1, "Define to 1 when DILITHIUM_3 enabled")
     AC_DEFINE(OQS_ENABLE_SIG_DILITHIUM_4, 1, "Define to 1 when DILITHIUM_4 enabled")
+  ])
+
+
+  AM_COND_IF([ENABLE_SIG_SPHINCS], [
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_128s_simple, 1, "Define to 1 when SPHINCS_haraka_128s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_128s_robust, 1, "Define to 1 when SPHINCS_haraka_128s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_128f_simple, 1, "Define to 1 when SPHINCS_haraka_128f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_128f_robust, 1, "Define to 1 when SPHINCS_haraka_128f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_192s_simple, 1, "Define to 1 when SPHINCS_haraka_192s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_192s_robust, 1, "Define to 1 when SPHINCS_haraka_192s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_192f_simple, 1, "Define to 1 when SPHINCS_haraka_192f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_192f_robust, 1, "Define to 1 when SPHINCS_haraka_192f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_256s_simple, 1, "Define to 1 when SPHINCS_haraka_256s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_256s_robust, 1, "Define to 1 when SPHINCS_haraka_256s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_256f_simple, 1, "Define to 1 when SPHINCS_haraka_256f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_haraka_256f_robust, 1, "Define to 1 when DSPHINCS_haraka_256f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_128s_simple, 1, "Define to 1 when SPHINCS_shake_128s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_128s_robust, 1, "Define to 1 when SPHINCS_shake_128s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_128f_simple, 1, "Define to 1 when SPHINCS_shake_128f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_128f_robust, 1, "Define to 1 when SPHINCS_shake_128f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_192s_simple, 1, "Define to 1 when SPHINCS_shake_192s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_192s_robust, 1, "Define to 1 when SPHINCS_shake_192s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_192f_simple, 1, "Define to 1 when SPHINCS_shake_192f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_192f_robust, 1, "Define to 1 when SPHINCS_shake_192f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_256s_simple, 1, "Define to 1 when SPHINCS_shake_256s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_256s_robust, 1, "Define to 1 when SPHINCS_shake_256s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_256f_simple, 1, "Define to 1 when SPHINCS_shake_256f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_shake_256f_robust, 1, "Define to 1 when SPHINCS_shake_256f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_128s_simple, 1, "Define to 1 when SPHINCS_sha256_128s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_128s_robust, 1, "Define to 1 when SPHINCS_sha256_128s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_128f_simple, 1, "Define to 1 when SPHINCS_sha256_128f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_128f_robust, 1, "Define to 1 when SPHINCS_sha256_128f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_192s_simple, 1, "Define to 1 when SPHINCS_sha256_192s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_192s_robust, 1, "Define to 1 when SPHINCS_sha256_192s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_192f_simple, 1, "Define to 1 when SPHINCS_sha256_192f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_192f_robust, 1, "Define to 1 when SPHINCS_sha256_192f_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_256s_simple, 1, "Define to 1 when SPHINCS_sha256_256s_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_256s_robust, 1, "Define to 1 when SPHINCS_sha256_256s_robust enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_256f_simple, 1, "Define to 1 when SPHINCS_sha256_256f_simple enabled")
+    AC_DEFINE(OQS_ENABLE_SIG_SPHINCS_sha256_256f_robust, 1, "Define to 1 when SPHINCS_sha256_256f_robust enabled")
   ])
 
 

@@ -369,4 +369,60 @@ void OQS_SHA3_cshake256_simple_absorb(uint64_t *state, uint16_t cstm, const uint
 */
 void OQS_SHA3_cshake256_simple_squeezeblocks(uint8_t *output, size_t nblocks, uint64_t *state);
 
+/**
+ * \brief Initialize initial SHA3 state for incremental hashing api
+ *
+ * \warning The input array should be 26 items
+ */
+void OQS_SHA3_sha3256_inc_init(uint64_t *s_inc);
+
+/**
+ * \brief Absorb a block into the state of inlen bits.
+ *
+ * \param s_inc pointer to input/output incremental state
+ *                First 25 values represent Keccak state.
+ *                26th value represents either the number of absorbed bytes
+ *                that have not been permuted, or not-yet-squeezed bytes.
+ * \param input input to input to be absorbed into s
+ * \param inlen length of input in bytes
+ */
+void OQS_SHA3_sha3256_inc_absorb(uint64_t *s_inc, const uint8_t *input, size_t inlen);
+
+/*
+ * \brief Finalizes absorb phase, prepares for squeezing
+ *
+ * \param output Output buffer, 32 bytes
+ * \param s_inc Incremental hashing state
+ */
+void OQS_SHA3_sha3256_inc_finalize(uint8_t *output, uint64_t *s_inc);
+
+/**
+ * \brief Initialize initial SHA3 state for incremental hashing api
+ *
+ * \warning The input array should be 26 items
+ */
+void OQS_SHA3_sha3512_inc_init(uint64_t *s_inc);
+
+/**
+ * \brief Absorb a block into the state of inlen bits.
+ *
+ * \param s_inc pointer to input/output incremental state
+ *                First 25 values represent Keccak state.
+ *                26th value represents either the number of absorbed bytes
+ *                that have not been permuted, or not-yet-squeezed bytes.
+ * \param input input to input to be absorbed into s
+ * \param inlen length of input in bytes
+ */
+void OQS_SHA3_sha3512_inc_absorb(uint64_t *s_inc, const uint8_t *input, size_t inlen);
+
+/*
+ * \brief Finalizes output
+ *
+ * \param output Output buffer, 32 bytes
+ * \param s_inc Incremental hashing state
+ */
+void OQS_SHA3_sha3512_inc_finalize(uint8_t *output, uint64_t *s_inc);
+
+
+
 #endif

@@ -23,7 +23,44 @@ OQS_API const char *OQS_SIG_alg_identifier(size_t i) {
 	    OQS_SIG_alg_qTESLA_III_speed,
 	    OQS_SIG_alg_DILITHIUM_2,
         OQS_SIG_alg_DILITHIUM_3,
-        OQS_SIG_alg_DILITHIUM_4};
+        OQS_SIG_alg_DILITHIUM_4,
+        OQS_SIG_alg_SPHINCS_haraka_128s_simple,
+        OQS_SIG_alg_SPHINCS_haraka_128s_robust,
+        OQS_SIG_alg_SPHINCS_haraka_128f_simple,
+        OQS_SIG_alg_SPHINCS_haraka_128f_robust,
+        OQS_SIG_alg_SPHINCS_haraka_192s_simple,
+        OQS_SIG_alg_SPHINCS_haraka_192s_robust,
+        OQS_SIG_alg_SPHINCS_haraka_192f_simple,
+        OQS_SIG_alg_SPHINCS_haraka_192f_robust,
+        OQS_SIG_alg_SPHINCS_haraka_256s_simple,
+        OQS_SIG_alg_SPHINCS_haraka_256s_robust,
+        OQS_SIG_alg_SPHINCS_haraka_256f_simple,
+        OQS_SIG_alg_SPHINCS_haraka_256f_robust,
+        OQS_SIG_alg_SPHINCS_shake_128s_simple,
+        OQS_SIG_alg_SPHINCS_shake_128s_robust,
+        OQS_SIG_alg_SPHINCS_shake_128f_simple,
+        OQS_SIG_alg_SPHINCS_shake_128f_robust,
+        OQS_SIG_alg_SPHINCS_shake_192s_simple,
+        OQS_SIG_alg_SPHINCS_shake_192s_robust,
+        OQS_SIG_alg_SPHINCS_shake_192f_simple,
+        OQS_SIG_alg_SPHINCS_shake_192f_robust,
+        OQS_SIG_alg_SPHINCS_shake_256s_simple,
+        OQS_SIG_alg_SPHINCS_shake_256s_robust,
+        OQS_SIG_alg_SPHINCS_shake_256f_simple,
+        OQS_SIG_alg_SPHINCS_shake_256f_robust,
+        OQS_SIG_alg_SPHINCS_sha256_128s_simple,
+        OQS_SIG_alg_SPHINCS_sha256_128s_robust,
+        OQS_SIG_alg_SPHINCS_sha256_128f_simple,
+        OQS_SIG_alg_SPHINCS_sha256_128f_robust,
+        OQS_SIG_alg_SPHINCS_sha256_192s_simple,
+        OQS_SIG_alg_SPHINCS_sha256_192s_robust,
+        OQS_SIG_alg_SPHINCS_sha256_192f_simple,
+        OQS_SIG_alg_SPHINCS_sha256_192f_robust,
+        OQS_SIG_alg_SPHINCS_sha256_256s_simple,
+        OQS_SIG_alg_SPHINCS_sha256_256s_robust,
+        OQS_SIG_alg_SPHINCS_sha256_256f_simple,
+        OQS_SIG_alg_SPHINCS_sha256_256f_robust
+    };
 	if (i >= OQS_SIG_algs_length) {
 		return NULL;
 	} else {
@@ -101,7 +138,7 @@ OQS_API OQS_SIG *OQS_SIG_new(const char *method_name) {
 #else
 		return NULL;
 #endif
-		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_DILITHIUM_3)) {
+	} else if (0 == strcasecmp(method_name, OQS_SIG_alg_DILITHIUM_3)) {
 #ifdef OQS_ENABLE_SIG_DILITHIUM_3
 		return OQS_SIG_DILITHIUM_3_new();
 #else
@@ -110,6 +147,210 @@ OQS_API OQS_SIG *OQS_SIG_new(const char *method_name) {
 	} else if (0 == strcasecmp(method_name, OQS_SIG_alg_DILITHIUM_4)) {
 #ifdef OQS_ENABLE_SIG_DILITHIUM_4
 		return OQS_SIG_DILITHIUM_4_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_128s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_128s_simple
+		return OQS_SIG_SPHINCS_haraka_128s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_128s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_128s_robust
+		return OQS_SIG_SPHINCS_haraka_128s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_128f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_128f_simple
+		return OQS_SIG_SPHINCS_haraka_128f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_128f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_128f_robust
+		return OQS_SIG_SPHINCS_haraka_128f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_192s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_192s_simple
+		return OQS_SIG_SPHINCS_haraka_192s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_192s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_192s_robust
+		return OQS_SIG_SPHINCS_haraka_192s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_256s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_256s_simple
+		return OQS_SIG_SPHINCS_haraka_256s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_256s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_256s_robust
+		return OQS_SIG_SPHINCS_haraka_256s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_256f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_256f_simple
+		return OQS_SIG_SPHINCS_haraka_256f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_haraka_256f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_haraka_256f_robust
+		return OQS_SIG_SPHINCS_haraka_256f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_128s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_128s_simple
+		return OQS_SIG_SPHINCS_shake_128s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_128s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_128s_robust
+		return OQS_SIG_SPHINCS_shake_128s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_128f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_128f_simple
+		return OQS_SIG_SPHINCS_shake_128f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_128f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_128f_robust
+		return OQS_SIG_SPHINCS_shake_128f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_192s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_192s_simple
+		return OQS_SIG_SPHINCS_shake_192s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_192s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_192s_robust
+		return OQS_SIG_SPHINCS_shake_192s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_192f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_192f_simple
+		return OQS_SIG_SPHINCS_shake_192f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_192f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_192f_robust
+		return OQS_SIG_SPHINCS_shake_192f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_256s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_256s_simple
+		return OQS_SIG_SPHINCS_shake_256s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_256s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_256s_robust
+		return OQS_SIG_SPHINCS_shake_256s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_256f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_256f_simple
+		return OQS_SIG_SPHINCS_shake_256f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_shake_256f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_shake_256f_robust
+		return OQS_SIG_SPHINCS_shake_256f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_128s_simple)) {
+#ifdef OQS_ENABLE_SPHINCS_sha256_128s_simple
+		return OQS_SIG_SPHINCS_sha256_128s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_128s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_128s_robust
+		return OQS_SIG_SPHINCS_sha256_128s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_128f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_128f_simple
+		return OQS_SIG_SPHINCS_sha256_128f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_128f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_128f_robust
+		return OQS_SIG_SPHINCS_sha256_128f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_192s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_192s_simple
+		return OQS_SIG_SPHINCS_sha256_192s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_192s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_192s_robust
+		return OQS_SIG_SPHINCS_sha256_192s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_192f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_192f_simple
+		return OQS_SIG_SPHINCS_sha256_192f_simple_new();
+#else
+		return NULL;
+#endif
+        } else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_192f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_192f_robust
+		return OQS_SIG_SPHINCS_sha256_192f_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_256s_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_256s_simple
+		return OQS_SIG_SPHINCS_sha256_256s_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_256s_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_256s_robust
+		return OQS_SIG_SPHINCS_sha256_256s_robust_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_256f_simple)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_256f_simple
+		return OQS_SIG_SPHINCS_sha256_256f_simple_new();
+#else
+		return NULL;
+#endif
+		} else if (0 == strcasecmp(method_name, OQS_SIG_alg_SPHINCS_sha256_256f_robust)) {
+#ifdef OQS_ENABLE_SIG_SPHINCS_sha256_256f_robust
+		return OQS_SIG_SPHINCS_sha256_256f_robust_new();
 #else
 		return NULL;
 #endif

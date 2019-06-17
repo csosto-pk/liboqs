@@ -17,6 +17,7 @@ liboqs_la_SOURCES =
 liboqs_la_LIBADD =  src/common/libcommon.la
 liboqs_la_LIBADD += src/crypto/aes/libaes.la
 liboqs_la_LIBADD += src/crypto/sha3/libsha3.la
+liboqs_la_LIBADD += src/crypto/sha2/libsha2.la
 liboqs_la_LIBADD += src/kem/libkem.la
 liboqs_la_LIBADD += src/sig/libsig.la
 
@@ -28,6 +29,9 @@ liboqs_la_LIBADD += src/sig/qtesla/libqtesla.la
 endif
 if ENABLE_SIG_DILITHIUM
 liboqs_la_LIBADD += src/sig/dilithium/libdilithium.la
+endif
+if ENABLE_SIG_SPHINCS
+liboqs_la_LIBADD += src/sig/sphincs/libsigsphincs.la
 endif
 
 if ENABLE_KEM_BIKE
@@ -59,6 +63,7 @@ installheader_HEADERS= src/oqs.h \
 	src/common/rand.h \
 	src/crypto/aes/aes.h \
 	src/crypto/sha3/sha3.h \
+	src/crypto/sha2/sha2.h \
 	src/kem/kem.h \
 	src/kem/bike/kem_bike.h \
 	src/kem/frodokem/kem_frodokem.h \
@@ -68,7 +73,8 @@ installheader_HEADERS= src/oqs.h \
 	src/sig/sig.h \
 	src/sig/picnic/sig_picnic.h \
 	src/sig/qtesla/sig_qtesla.h \
-	src/sig/dilithium/sig_dilithium.h
+	src/sig/dilithium/sig_dilithium.h \
+	src/sig/sphincs/sig_sphincs.h
 
 
 test: clean-tests check
@@ -79,6 +85,7 @@ test: clean-tests check
 if !ENABLE_SHARED
 	tests/test_aes
 	tests/test_sha3
+	tests/test_sha2
 endif
 
 kat: clean-kats check
@@ -93,6 +100,7 @@ links: oqsconfigh
 	cp -f src/common/rand.h include/oqs
 	cp -f src/crypto/aes/aes.h include/oqs
 	cp -f src/crypto/sha3/sha3.h include/oqs
+	cp -f src/crypto/sha2/sha2.h include/oqs
 	cp -f src/kem/kem.h include/oqs
 	cp -f src/kem/bike/kem_bike.h include/oqs
 	cp -f src/kem/frodokem/kem_frodokem.h include/oqs
@@ -103,12 +111,13 @@ links: oqsconfigh
 	cp -f src/sig/picnic/sig_picnic.h include/oqs
 	cp -f src/sig/qtesla/sig_qtesla.h include/oqs
 	cp -f src/sig/dilithium/sig_dilithium.h include/oqs
+	cp -f src/sig/sphincs/sig_sphincs.h include/oqs
 
 clean-local:
 	rm -rf include
 
 clean-tests:
-	rm -f tests/example_kem tests/example_sig tests/speed_kem tests/speed_sig tests/test_kem tests/test_sig tests/test_aes tests/test_sha3
+	rm -f tests/example_kem tests/example_sig tests/speed_kem tests/speed_sig tests/test_kem tests/test_sig tests/test_aes tests/test_sha3 tests/test_sha2
 
 clean-kats:
 	rm -rf tests/kat_kem kat_kem_rsp/

@@ -52,9 +52,48 @@
 /** Algorithm identifier for DILITHIUM_4 */
 #define OQS_SIG_alg_DILITHIUM_4 "DILITHIUM_4"
 
+/** SPHINCSES */
+#define OQS_SIG_alg_SPHINCS_haraka_128s_simple "SPHINCS_haraka_128s_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_128s_robust "SPHINCS_haraka_128s_robust"
+#define OQS_SIG_alg_SPHINCS_haraka_128f_simple "SPHINCS_haraka_128f_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_128f_robust "SPHINCS_haraka_128f_robust"
+#define OQS_SIG_alg_SPHINCS_haraka_192s_simple "SPHINCS_haraka_192s_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_192s_robust "SPHINCS_haraka_192s_robust"
+#define OQS_SIG_alg_SPHINCS_haraka_192f_simple "SPHINCS_haraka_192f_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_192f_robust "SPHINCS_haraka_192f_robust"
+#define OQS_SIG_alg_SPHINCS_haraka_256s_simple "SPHINCS_haraka_256s_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_256s_robust "SPHINCS_haraka_256s_robust"
+#define OQS_SIG_alg_SPHINCS_haraka_256f_simple "SPHINCS_haraka_256f_simple"
+#define OQS_SIG_alg_SPHINCS_haraka_256f_robust "SPHINCS_haraka_256f_robust"
+#define OQS_SIG_alg_SPHINCS_shake_128s_simple "SPHINCS_shake_128s_simple"
+#define OQS_SIG_alg_SPHINCS_shake_128s_robust "SPHINCS_shake_128s_robust"
+#define OQS_SIG_alg_SPHINCS_shake_128f_simple "SPHINCS_shake_128f_simple"
+#define OQS_SIG_alg_SPHINCS_shake_128f_robust "SPHINCS_shake_128f_robust"
+#define OQS_SIG_alg_SPHINCS_shake_192s_simple "SPHINCS_shake_192s_simple"
+#define OQS_SIG_alg_SPHINCS_shake_192s_robust "SPHINCS_shake_192s_robust"
+#define OQS_SIG_alg_SPHINCS_shake_192f_simple "SPHINCS_shake_192f_simple"
+#define OQS_SIG_alg_SPHINCS_shake_192f_robust "SPHINCS_shake_192f_robust"
+#define OQS_SIG_alg_SPHINCS_shake_256s_simple "SPHINCS_shake_256s_simple"
+#define OQS_SIG_alg_SPHINCS_shake_256s_robust "SPHINCS_shake_256s_robust"
+#define OQS_SIG_alg_SPHINCS_shake_256f_simple "SPHINCS_shake_256f_simple"
+#define OQS_SIG_alg_SPHINCS_shake_256f_robust "SPHINCS_shake_256f_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_128s_simple "SPHINCS_sha256_128s_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_128s_robust "SPHINCS_sha256_128s_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_128f_simple "SPHINCS_sha256_128f_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_128f_robust "SPHINCS_sha256_128f_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_192s_simple "SPHINCS_sha256_192s_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_192s_robust "SPHINCS_sha256_192s_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_192f_simple "SPHINCS_sha256_192f_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_192f_robust "SPHINCS_sha256_192f_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_256s_simple "SPHINCS_sha256_256s_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_256s_robust "SPHINCS_sha256_256s_robust"
+#define OQS_SIG_alg_SPHINCS_sha256_256f_simple "SPHINCS_sha256_256f_simple"
+#define OQS_SIG_alg_SPHINCS_sha256_256f_robust "SPHINCS_sha256_256f_robust"
+
+
 // EDIT-WHEN-ADDING-SIG
 /** Number of algorithm identifiers above (including default). */
-#define OQS_SIG_algs_length 13
+#define OQS_SIG_algs_length 49
 /** The default signature. Different on Windows because qTESLA is not yet supported. */
 #if defined(_WIN32)
 #define OQS_SIG_DEFAULT OQS_SIG_alg_picnic_L1_FS
@@ -223,6 +262,7 @@ OQS_API void OQS_SIG_free(OQS_SIG *sig);
 #include <oqs/sig_picnic.h>
 #include <oqs/sig_qtesla.h>
 #include <oqs/sig_dilithium.h>
+#include <oqs/sig_sphincs.h>
 // EDIT-WHEN-ADDING-SIG
 
 #endif // __OQS_SIG_H

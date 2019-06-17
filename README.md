@@ -202,6 +202,7 @@ liboqs includes some third party libraries or modules that are licensed differen
 
 - `src/crypto/aes/aes_c.c`: public domain
 - `src/crypto/sha3`: public domain
+- `src/crypto/sha2`: public domain
 - `src/kem/newhopenist/optimized`: public domain
 - `src/sig/qtesla/external`: public domain
 

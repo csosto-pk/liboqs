@@ -2907,3 +2907,43 @@ void OQS_SHA3_shake256_inc_finalize(uint64_t *s_inc) {
 void OQS_SHA3_shake256_inc_squeeze(uint8_t *output, size_t outlen, uint64_t *s_inc) {
     keccak_inc_squeeze(output, outlen, s_inc, SHA3_SHAKE256_RATE);
 }
+
+
+void OQS_SHA3_sha3256_inc_init(uint64_t *s_inc) {
+    keccak_inc_init(s_inc);
+}
+
+void OQS_SHA3_sha3256_inc_absorb(uint64_t *s_inc, const uint8_t *input, size_t inlen) {
+    keccak_inc_absorb(s_inc, SHA3_SHA3_256_RATE, input, inlen);
+}
+
+void OQS_SHA3_sha3256_inc_finalize(uint8_t *output, uint64_t *s_inc) {
+    uint8_t t[SHA3_SHA3_256_RATE];
+    keccak_inc_finalize(s_inc, SHA3_SHA3_256_RATE, 0x06);
+
+    OQS_SHA3_keccak_squeezeblocks(t, 1, s_inc, SHA3_SHA3_256_RATE);
+
+    for (size_t i = 0; i < 32; i++) {
+        output[i] = t[i];
+    }
+}
+
+
+void OQS_SHA3_sha3512_inc_init(uint64_t *s_inc) {
+    keccak_inc_init(s_inc);
+}
+
+void OQS_SHA3_sha3512_inc_absorb(uint64_t *s_inc, const uint8_t *input, size_t inlen) {
+    keccak_inc_absorb(s_inc, SHA3_SHA3_512_RATE, input, inlen);
+}
+
+void OQS_SHA3_sha3512_inc_finalize(uint8_t *output, uint64_t *s_inc) {
+    uint8_t t[SHA3_SHA3_512_RATE];
+    keccak_inc_finalize(s_inc, SHA3_SHA3_512_RATE, 0x06);
+
+    OQS_SHA3_keccak_squeezeblocks(t, 1, s_inc, SHA3_SHA3_512_RATE);
+
+    for (size_t i = 0; i < 32; i++) {
+        output[i] = t[i];
+    }
+}
