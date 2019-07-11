@@ -1,6 +1,27 @@
 #ifndef __OQS_SIG_SPHINCS_H
 #define __OQS_SIG_SPHINCS_H
 
+/* PANOS SPHINCS+ custom parameter testing
+   using the testing and the parameter set flag
+   These definitions are used in ifndefs in 
+   sphincs-sha256-192f-simple and sphincs-sha256-256f-simple */
+// Testing SPHINCS custom parameters
+#define SPHINCS_CUSTOM_PARAM_TESTING
+// Parameter sets. ONLY USE ONE. 
+#define H_15_SEC192_W16
+#define H_15_SEC192_W256
+#define H_15_SEC256_W16
+#define H_15_SEC256_W256
+#define H_20_SEC192_W16
+#define H_20_SEC192_W256
+#define H_20_SEC256_W16
+#define H_20_SEC256_W256
+#define H_35_SEC192_W16
+#define H_35_SEC192_W256
+#define H_35_SEC256_W16
+#define H_35_SEC256_W256
+
+
 #include <oqs/oqs.h>
 #include <oqs/sha2.h>
 
