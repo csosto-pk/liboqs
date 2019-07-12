@@ -4,14 +4,80 @@
 /* Hash output length in bytes. */
 #define SPX_N 24
 /* Height of the hypertree. */
-#define SPX_FULL_HEIGHT 66
+//#define SPX_FULL_HEIGHT 66
 /* Number of subtree layer. */
-#define SPX_D 22
+//#define SPX_D 22
 /* FORS tree dimensions. */
-#define SPX_FORS_HEIGHT 8
-#define SPX_FORS_TREES 33
+//#define SPX_FORS_HEIGHT 8
+//#define SPX_FORS_TREES 33
 /* Winternitz parameter, */
-#define SPX_WOTS_W 16
+//#define SPX_WOTS_W 16
+
+/* PANOS SPHINCS+ custom parameter testing
+   using the testing and the parameter set flag
+   These definitions are used in ifndefs in 
+   sphincs-sha256-192f-simple and sphincs-sha256-256f-simple */
+// Testing SPHINCS custom parameters
+// TODO: Set or unset.
+#define SPHINCS_CUSTOM_PARAM_TESTING
+// Parameter sets. TODO: ONLY USE ONE. 
+//#define H15_W16
+//#define H15_W256
+//#define H20_W16
+//#define H20_W256
+#define H35_W16
+//#define H35_W256
+#ifdef SPHINCS_CUSTOM_PARAM_TESTING 
+  #if defined(H15_W16)
+    #define SPX_FULL_HEIGHT 15
+    #define SPX_D 3
+    #define SPX_FORS_HEIGHT 13 
+    #define SPX_FORS_TREES 18
+    #define SPX_WOTS_W 16
+  #elif defined(H15_W256)
+    #define SPX_FULL_HEIGHT 15
+    #define SPX_D 3
+    #define SPX_FORS_HEIGHT 13 
+    #define SPX_FORS_TREES 18
+    #define SPX_WOTS_W 256
+  #elif defined(H20_W16)
+    #define SPX_FULL_HEIGHT 20
+    #define SPX_D 2
+    #define SPX_FORS_HEIGHT 13 
+    #define SPX_FORS_TREES 18
+    #define SPX_WOTS_W 16
+  #elif defined(H20_W256)
+    #define SPX_FULL_HEIGHT 20
+    #define SPX_D 2
+    #define SPX_FORS_HEIGHT 13 
+    #define SPX_FORS_TREES 18
+    #define SPX_WOTS_W 256
+  #elif defined(H35_W16)
+    #define SPX_FULL_HEIGHT 35
+    #define SPX_D 5
+    #define SPX_FORS_HEIGHT 12 
+    #define SPX_FORS_TREES 20
+    #define SPX_WOTS_W 16
+  #elif defined(H35_W256)
+    #define SPX_FULL_HEIGHT 35
+    #define SPX_D 5
+    #define SPX_FORS_HEIGHT 12 
+    #define SPX_FORS_TREES 20
+    #define SPX_WOTS_W 256
+  #else // default sphincs-sha256-192f-simple parameters
+    #define SPX_FULL_HEIGHT 66
+    #define SPX_D 22
+    #define SPX_FORS_HEIGHT 8
+    #define SPX_FORS_TREES 33
+    #define SPX_WOTS_W 16
+  #endif
+#else // default sphincs-sha256-192f-simple parameters
+  #define SPX_FULL_HEIGHT 66
+  #define SPX_D 22
+  #define SPX_FORS_HEIGHT 8
+  #define SPX_FORS_TREES 33
+  #define SPX_WOTS_W 16
+#endif // SPHINCS_CUSTOM_PARAM_TESTING 
 
 /* The hash function is defined by linking a different hash.c file, as opposed
    to setting a #define constant. */

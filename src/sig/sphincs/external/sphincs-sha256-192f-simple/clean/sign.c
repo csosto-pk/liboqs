@@ -1,3 +1,6 @@
+//PANOS
+//#include <stdio.h> 
+
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
@@ -10,7 +13,7 @@
 #include "randombytes.h"
 #include "thash.h"
 #include "utils.h"
-#include "wots.h"
+#include "wots.h" 
 
 /**
  * Computes the leaf at a given address. First generates the WOTS key pair,
@@ -197,6 +200,9 @@ int PQCLEAN_SPHINCSSHA256192FSIMPLE_CLEAN_crypto_sign_signature(
         idx_leaf = (tree & ((1 << SPX_TREE_HEIGHT) - 1));
         tree = tree >> SPX_TREE_HEIGHT;
     }
+
+//PANOS
+//printf("***** H=%d, d=%d, k=%d.\n",SPX_FULL_HEIGHT,SPX_D,SPX_FORS_TREES); 
 
     *siglen = SPX_BYTES;
 
