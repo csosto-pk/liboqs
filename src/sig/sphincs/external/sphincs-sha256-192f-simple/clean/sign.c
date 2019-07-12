@@ -1,6 +1,3 @@
-//PANOS
-//#include <stdio.h> 
-
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
@@ -200,9 +197,6 @@ int PQCLEAN_SPHINCSSHA256192FSIMPLE_CLEAN_crypto_sign_signature(
         idx_leaf = (tree & ((1 << SPX_TREE_HEIGHT) - 1));
         tree = tree >> SPX_TREE_HEIGHT;
     }
-
-//PANOS
-//printf("***** H=%d, d=%d, k=%d.\n",SPX_FULL_HEIGHT,SPX_D,SPX_FORS_TREES); 
 
     *siglen = SPX_BYTES;
 
