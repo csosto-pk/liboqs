@@ -33,7 +33,7 @@ static inline uint32_t ATTR_CONST bswap32(uint32_t x) {
          ((x & 0x000000ff) << 24);
 }
 
-static inline uint64_t AATR_CONST bswap64(uint64_t x) {
+static inline uint64_t ATTR_CONST bswap64(uint64_t x) {
   return ((x & UINT64_C(0xff00000000000000)) >> 56) | ((x & UINT64_C(0x00ff000000000000)) >> 40) |
          ((x & UINT64_C(0x0000ff0000000000)) >> 24) | ((x & UINT64_C(0x000000ff00000000)) >> 8) |
          ((x & UINT64_C(0x00000000ff000000)) << 8) | ((x & UINT64_C(0x0000000000ff0000)) << 24) |
@@ -73,6 +73,7 @@ static inline uint64_t AATR_CONST bswap64(uint64_t x) {
 /* other BSDs */
 #if defined(__FreeBSD__) || defined(__NETBSD__) || defined(__NetBSD__)
 #include <sys/endian.h>
+#define HAVE_HOSTSWAP
 #endif
 
 #if !defined(PICNIC_IS_LITTLE_ENDIAN) && !defined(PICNIC_IS_BIG_ENDIAN)

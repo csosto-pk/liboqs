@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,11 +7,17 @@
 
 #include <oqs/oqs.h>
 
+#if OQS_USE_PTHREADS_IN_TESTS
+#include <pthread.h>
+#endif
+
+#include "system_info.c"
+
 /* Displays hexadecimal strings */
-void OQS_print_hex_string(const char *label, const uint8_t *str, size_t len) {
+static void OQS_print_hex_string(const char *label, const uint8_t *str, size_t len) {
 	printf("%-20s (%4zu bytes):  ", label, len);
 	for (size_t i = 0; i < (len); i++) {
-		printf("%02X", ((unsigned char *) (str))[i]);
+		printf("%02X", str[i]);
 	}
 	printf("\n");
 }
@@ -18,7 +26,7 @@ typedef struct magic_s {
 	uint8_t val[32];
 } magic_t;
 
-OQS_STATUS kem_test_correctness(const char *method_name) {
+static OQS_STATUS kem_test_correctness(const char *method_name) {
 
 	OQS_KEM *kem = NULL;
 	uint8_t *public_key = NULL;
@@ -31,14 +39,18 @@ OQS_STATUS kem_test_correctness(const char *method_name) {
 
 	//The magic numbers are 32 random values.
 	//The length of the magic number was chosen arbitrarilly to 32.
-	magic_t magic = {{0xfa, 0xfa, 0xfa, 0xfa, 0xbc, 0xbc, 0xbc, 0xbc,
-	                  0x15, 0x61, 0x15, 0x61, 0x15, 0x61, 0x15, 0x61,
-	                  0xad, 0xad, 0x43, 0x43, 0xad, 0xad, 0x34, 0x34,
-	                  0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x56, 0x78}};
+	magic_t magic = {{
+			0xfa, 0xfa, 0xfa, 0xfa, 0xbc, 0xbc, 0xbc, 0xbc,
+			0x15, 0x61, 0x15, 0x61, 0x15, 0x61, 0x15, 0x61,
+			0xad, 0xad, 0x43, 0x43, 0xad, 0xad, 0x34, 0x34,
+			0x12, 0x34, 0x56, 0x78, 0x12, 0x34, 0x56, 0x78
+		}
+	};
 
 	kem = OQS_KEM_new(method_name);
 	if (kem == NULL) {
-		return OQS_SUCCESS;
+		fprintf(stderr, "ERROR: OQS_KEM_new failed\n");
+		goto err;
 	}
 
 	printf("================================================================================\n");
@@ -101,6 +113,14 @@ OQS_STATUS kem_test_correctness(const char *method_name) {
 		goto err;
 	}
 
+	// test invalid encapsulation (call should either fail or result in invalid shared secret)
+	OQS_randombytes(ciphertext, kem->length_ciphertext);
+	rc = OQS_KEM_decaps(kem, shared_secret_d, ciphertext, secret_key);
+	if (rc == OQS_SUCCESS && memcmp(shared_secret_e, shared_secret_d, kem->length_shared_secret) == 0) {
+		fprintf(stderr, "ERROR: OQS_KEM_decaps succeeded on wrong input\n");
+		goto err;
+	}
+
 	ret = OQS_SUCCESS;
 	goto cleanup;
 
@@ -120,20 +140,76 @@ cleanup:
 	return ret;
 }
 
-int main() {
-
-	int ret = EXIT_SUCCESS;
+#if OQS_USE_PTHREADS_IN_TESTS
+struct thread_data {
+	char *alg_name;
 	OQS_STATUS rc;
+};
+
+void *test_wrapper(void *arg) {
+	struct thread_data *td = arg;
+	td->rc = kem_test_correctness(td->alg_name);
+	return NULL;
+}
+#endif
+
+int main(int argc, char **argv) {
+
+	if (argc != 2) {
+		fprintf(stderr, "Usage: test_kem algname\n");
+		fprintf(stderr, "  algname: ");
+		for (size_t i = 0; i < OQS_KEM_algs_length; i++) {
+			if (i > 0) {
+				fprintf(stderr, ", ");
+			}
+			fprintf(stderr, "%s", OQS_KEM_alg_identifier(i));
+		}
+		fprintf(stderr, "\n");
+		return EXIT_FAILURE;
+	}
+
+	print_system_info();
+
+	char *alg_name = argv[1];
+	if (!OQS_KEM_alg_is_enabled(alg_name)) {
+		printf("KEM algorithm %s not enabled!\n", alg_name);
+		return EXIT_FAILURE;
+	}
 
 	// Use system RNG in this program
 	OQS_randombytes_switch_algorithm(OQS_RAND_alg_system);
 
-	for (size_t i = 0; i < OQS_KEM_algs_length; i++) {
-		rc = kem_test_correctness(OQS_KEM_alg_identifier(i));
-		if (rc != OQS_SUCCESS) {
-			ret = EXIT_FAILURE;
+	OQS_STATUS rc;
+#if OQS_USE_PTHREADS_IN_TESTS
+#define MAX_LEN_KEM_NAME_ 64
+	// don't run Classic McEliece in threads because of large stack usage
+	char no_thread_kem_patterns[][MAX_LEN_KEM_NAME_]  = {"Classic-McEliece", "HQC-256-"};
+	int test_in_thread = 1;
+	for (size_t i = 0 ; i < sizeof(no_thread_kem_patterns) / MAX_LEN_KEM_NAME_; ++i) {
+		if (strstr(alg_name, no_thread_kem_patterns[i]) != NULL) {
+			test_in_thread = 0;
+			break;
 		}
 	}
-
-	return ret;
+	if (test_in_thread) {
+		pthread_t thread;
+		struct thread_data td;
+		td.alg_name = alg_name;
+		int trc = pthread_create(&thread, NULL, test_wrapper, &td);
+		if (trc) {
+			fprintf(stderr, "ERROR: Creating pthread\n");
+			return EXIT_FAILURE;
+		}
+		pthread_join(thread, NULL);
+		rc = td.rc;
+	} else {
+		rc = kem_test_correctness(alg_name);
+	}
+#else
+	rc = kem_test_correctness(alg_name);
+#endif
+	if (rc != OQS_SUCCESS) {
+		return EXIT_FAILURE;
+	}
+	return EXIT_SUCCESS;
 }

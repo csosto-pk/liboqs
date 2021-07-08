@@ -7,10 +7,10 @@
  *  SPDX-License-Identifier: MIT
  */
 
-#include "cpu.h"
-
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#else
 /* If cmake checks were not run, define some known values. */
-
 #if !defined(HAVE_SYS_AUXV_H) && defined(__linux__)
 #define HAVE_SYS_AUXV_H
 #endif
@@ -18,7 +18,11 @@
 #if !defined(HAVE_ASM_HWCAP_H) && defined(__linux__) && defined(__arm__)
 #define HAVE_ASM_HWCAP_H
 #endif
+#endif
 
+#include "cpu.h"
+
+#if !defined(BUILTIN_CPU_SUPPORTED) || defined(BUILTIN_CPU_SUPPORTED_BROKEN_BMI2)
 #if defined(__arm__) && defined(HAVE_SYS_AUXV_H) && defined(HAVE_ASM_HWCAP_H)
 #include <asm/hwcap.h>
 #include <sys/auxv.h>
@@ -31,7 +35,7 @@ static unsigned int init_caps(void) {
   return caps;
 }
 
-#elif (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(_MSC_VER))
+#elif (defined(__x86_64__) || defined(__i386__) || defined(_M_IX86) || defined(_M_AMD64)) && (defined(__GNUC__) || defined(_MSC_VER))
 
 #ifdef _MSC_VER
 #include <intrin.h>
@@ -54,46 +58,22 @@ static unsigned init_caps(void) {
     if (regs.edx & (1 << 26)) {
       caps |= CPU_CAP_SSE2;
     }
-    if (regs.ecx & (1 << 23)) {
-      caps |= CPU_CAP_POPCNT;
-    }
   }
 
   if (max >= 7) {
     __cpuidex(regs.data, 7, 0);
-    if (regs.ebx & ((1 << 5) | (1 << 8))) {
+    if (regs.ebx & (1 << 5)) {
       caps |= CPU_CAP_AVX2;
+    }
+    if (regs.ebx & (1 << 8)) {
+      caps |= CPU_CAP_BMI2;
     }
   }
 
   return caps;
 }
 #else
-#if defined(SUPERCOP)
-// SUPERCOP places a cpuid.h on the include search path before the system
-// provided cpuid.h. We hack around that by assuming that cpuid always exists
-// and defining __get_cpuid on our own.
-
-static int __get_cpuid(unsigned int leaf, unsigned int* reax, unsigned int* rebx,
-                       unsigned int* recx, unsigned int* redx) {
-
-  unsigned int eax, ebx, ecx, edx;
-  __asm__("cpuid\n" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "0"(leaf & 0x80000000));
-  if (eax == 0 || eax < leaf) {
-    return 0;
-  }
-
-  __asm__("cpuid\n" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "0"(leaf));
-  *reax = eax;
-  *rebx = ebx;
-  *recx = ecx;
-  *redx = edx;
-
-  return 1;
-}
-#else
 #include <cpuid.h>
-#endif
 
 static unsigned init_caps(void) {
   unsigned int caps = 0;
@@ -103,14 +83,14 @@ static unsigned init_caps(void) {
     if (edx & (1 << 26)) {
       caps |= CPU_CAP_SSE2;
     }
-    if (ecx & (1 << 23)) {
-      caps |= CPU_CAP_POPCNT;
-    }
   }
 
   if (__get_cpuid(7, &eax, &ebx, &ecx, &edx)) {
-    if (ebx & ((1 << 5) | (1 << 8))) {
+    if (ebx & (1 << 5)) {
       caps |= CPU_CAP_AVX2;
+    }
+    if (ebx & (1 << 8)) {
+      caps |= CPU_CAP_BMI2;
     }
   }
 
@@ -135,5 +115,6 @@ bool cpu_supports(unsigned int caps) {
     cpu_caps = init_caps();
   }
 
-  return cpu_caps & caps;
+  return (cpu_caps & caps) == caps;
 }
+#endif

@@ -14,10 +14,12 @@
  * malloc'ed by the programmer, with sizes indicated using the corresponding length
  * member of the OQS_SIG object in question.  Since algorithms can be disabled at
  * compile-time, the programmer should check that the OQS_SIG object is not `NULL`.
+ *
+ * SPDX-License-Identifier: MIT
  */
 
-#ifndef __OQS_SIG_H
-#define __OQS_SIG_H
+#ifndef OQS_SIG_H
+#define OQS_SIG_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -25,42 +27,143 @@
 
 #include <oqs/oqs.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 /** Algorithm identifier for default SIG algorithm. */
 #define OQS_SIG_alg_default "DEFAULT"
 /** Algorithm identifier for picnic_L1_FS */
 #define OQS_SIG_alg_picnic_L1_FS "picnic_L1_FS"
 /** Algorithm identifier for picnic_L1_UR */
 #define OQS_SIG_alg_picnic_L1_UR "picnic_L1_UR"
+/** Algorithm identifier for picnic_L1_full */
+#define OQS_SIG_alg_picnic_L1_full "picnic_L1_full"
 /** Algorithm identifier for picnic_L3_FS */
 #define OQS_SIG_alg_picnic_L3_FS "picnic_L3_FS"
-/** Algorithm identifier for Picnic_L3_UR */
+/** Algorithm identifier for picnic_L3_UR */
 #define OQS_SIG_alg_picnic_L3_UR "picnic_L3_UR"
-/** Algorithm identifier for Picnic_L5_FS */
+/** Algorithm identifier for picnic_L3_full */
+#define OQS_SIG_alg_picnic_L3_full "picnic_L3_full"
+/** Algorithm identifier for picnic_L5_FS */
 #define OQS_SIG_alg_picnic_L5_FS "picnic_L5_FS"
-/** Algorithm identifier for Picnic_L5_FS */
+/** Algorithm identifier for picnic_L5_FS */
 #define OQS_SIG_alg_picnic_L5_UR "picnic_L5_UR"
-/** Algorithm identifier for qTESLA_I */
-#define OQS_SIG_alg_qTESLA_I "qTESLA_I"
-/** Algorithm identifier for qTESLA_III_size */
-#define OQS_SIG_alg_qTESLA_III_size "qTESLA_III_size"
-/** Algorithm identifier for qTESLA_III_speed */
-#define OQS_SIG_alg_qTESLA_III_speed "qTESLA_III_speed"
+/** Algorithm identifier for picnic_L5_full */
+#define OQS_SIG_alg_picnic_L5_full "picnic_L5_full"
+/** Algorithm identifier for picnic3_L1 */
+#define OQS_SIG_alg_picnic3_L1 "picnic3_L1"
+/** Algorithm identifier for picnic3_L3 */
+#define OQS_SIG_alg_picnic3_L3 "picnic3_L3"
+/** Algorithm identifier for picnic3_L5 */
+#define OQS_SIG_alg_picnic3_L5 "picnic3_L5"
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_ALG_IDENTIFIER_START
 /** Algorithm identifier for DILITHIUM_2 */
-#define OQS_SIG_alg_DILITHIUM_2 "DILITHIUM_2"
+#define OQS_SIG_alg_dilithium_2 "DILITHIUM_2"
 /** Algorithm identifier for DILITHIUM_3 */
-#define OQS_SIG_alg_DILITHIUM_3 "DILITHIUM_3"
+#define OQS_SIG_alg_dilithium_3 "DILITHIUM_3"
 /** Algorithm identifier for DILITHIUM_4 */
-#define OQS_SIG_alg_DILITHIUM_4 "DILITHIUM_4"
-
+#define OQS_SIG_alg_dilithium_4 "DILITHIUM_4"
+/** Algorithm identifier for Falcon-512 */
+#define OQS_SIG_alg_falcon_512 "Falcon-512"
+/** Algorithm identifier for Falcon-1024 */
+#define OQS_SIG_alg_falcon_1024 "Falcon-1024"
+/** Algorithm identifier for Rainbow-Ia-Classic */
+#define OQS_SIG_alg_rainbow_Ia_classic "Rainbow-Ia-Classic"
+/** Algorithm identifier for Rainbow-Ia-Cyclic */
+#define OQS_SIG_alg_rainbow_Ia_cyclic "Rainbow-Ia-Cyclic"
+/** Algorithm identifier for Rainbow-Ia-Cyclic-Compressed */
+#define OQS_SIG_alg_rainbow_Ia_cyclic_compressed "Rainbow-Ia-Cyclic-Compressed"
+/** Algorithm identifier for Rainbow-IIIc-Classic */
+#define OQS_SIG_alg_rainbow_IIIc_classic "Rainbow-IIIc-Classic"
+/** Algorithm identifier for Rainbow-IIIc-Cyclic */
+#define OQS_SIG_alg_rainbow_IIIc_cyclic "Rainbow-IIIc-Cyclic"
+/** Algorithm identifier for Rainbow-IIIc-Cyclic-Compressed */
+#define OQS_SIG_alg_rainbow_IIIc_cyclic_compressed "Rainbow-IIIc-Cyclic-Compressed"
+/** Algorithm identifier for Rainbow-Vc-Classic */
+#define OQS_SIG_alg_rainbow_Vc_classic "Rainbow-Vc-Classic"
+/** Algorithm identifier for Rainbow-Vc-Cyclic */
+#define OQS_SIG_alg_rainbow_Vc_cyclic "Rainbow-Vc-Cyclic"
+/** Algorithm identifier for Rainbow-Vc-Cyclic-Compressed */
+#define OQS_SIG_alg_rainbow_Vc_cyclic_compressed "Rainbow-Vc-Cyclic-Compressed"
+/** Algorithm identifier for SPHINCS+-Haraka-128f-robust */
+#define OQS_SIG_alg_sphincs_haraka_128f_robust "SPHINCS+-Haraka-128f-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-128f-simple */
+#define OQS_SIG_alg_sphincs_haraka_128f_simple "SPHINCS+-Haraka-128f-simple"
+/** Algorithm identifier for SPHINCS+-Haraka-128s-robust */
+#define OQS_SIG_alg_sphincs_haraka_128s_robust "SPHINCS+-Haraka-128s-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-128s-simple */
+#define OQS_SIG_alg_sphincs_haraka_128s_simple "SPHINCS+-Haraka-128s-simple"
+/** Algorithm identifier for SPHINCS+-Haraka-192f-robust */
+#define OQS_SIG_alg_sphincs_haraka_192f_robust "SPHINCS+-Haraka-192f-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-192f-simple */
+#define OQS_SIG_alg_sphincs_haraka_192f_simple "SPHINCS+-Haraka-192f-simple"
+/** Algorithm identifier for SPHINCS+-Haraka-192s-robust */
+#define OQS_SIG_alg_sphincs_haraka_192s_robust "SPHINCS+-Haraka-192s-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-192s-simple */
+#define OQS_SIG_alg_sphincs_haraka_192s_simple "SPHINCS+-Haraka-192s-simple"
+/** Algorithm identifier for SPHINCS+-Haraka-256f-robust */
+#define OQS_SIG_alg_sphincs_haraka_256f_robust "SPHINCS+-Haraka-256f-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-256f-simple */
+#define OQS_SIG_alg_sphincs_haraka_256f_simple "SPHINCS+-Haraka-256f-simple"
+/** Algorithm identifier for SPHINCS+-Haraka-256s-robust */
+#define OQS_SIG_alg_sphincs_haraka_256s_robust "SPHINCS+-Haraka-256s-robust"
+/** Algorithm identifier for SPHINCS+-Haraka-256s-simple */
+#define OQS_SIG_alg_sphincs_haraka_256s_simple "SPHINCS+-Haraka-256s-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-128f-robust */
+#define OQS_SIG_alg_sphincs_sha256_128f_robust "SPHINCS+-SHA256-128f-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-128f-simple */
+#define OQS_SIG_alg_sphincs_sha256_128f_simple "SPHINCS+-SHA256-128f-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-128s-robust */
+#define OQS_SIG_alg_sphincs_sha256_128s_robust "SPHINCS+-SHA256-128s-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-128s-simple */
+#define OQS_SIG_alg_sphincs_sha256_128s_simple "SPHINCS+-SHA256-128s-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-192f-robust */
+#define OQS_SIG_alg_sphincs_sha256_192f_robust "SPHINCS+-SHA256-192f-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-192f-simple */
+#define OQS_SIG_alg_sphincs_sha256_192f_simple "SPHINCS+-SHA256-192f-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-192s-robust */
+#define OQS_SIG_alg_sphincs_sha256_192s_robust "SPHINCS+-SHA256-192s-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-192s-simple */
+#define OQS_SIG_alg_sphincs_sha256_192s_simple "SPHINCS+-SHA256-192s-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-256f-robust */
+#define OQS_SIG_alg_sphincs_sha256_256f_robust "SPHINCS+-SHA256-256f-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-256f-simple */
+#define OQS_SIG_alg_sphincs_sha256_256f_simple "SPHINCS+-SHA256-256f-simple"
+/** Algorithm identifier for SPHINCS+-SHA256-256s-robust */
+#define OQS_SIG_alg_sphincs_sha256_256s_robust "SPHINCS+-SHA256-256s-robust"
+/** Algorithm identifier for SPHINCS+-SHA256-256s-simple */
+#define OQS_SIG_alg_sphincs_sha256_256s_simple "SPHINCS+-SHA256-256s-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-128f-robust */
+#define OQS_SIG_alg_sphincs_shake256_128f_robust "SPHINCS+-SHAKE256-128f-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-128f-simple */
+#define OQS_SIG_alg_sphincs_shake256_128f_simple "SPHINCS+-SHAKE256-128f-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-128s-robust */
+#define OQS_SIG_alg_sphincs_shake256_128s_robust "SPHINCS+-SHAKE256-128s-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-128s-simple */
+#define OQS_SIG_alg_sphincs_shake256_128s_simple "SPHINCS+-SHAKE256-128s-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-192f-robust */
+#define OQS_SIG_alg_sphincs_shake256_192f_robust "SPHINCS+-SHAKE256-192f-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-192f-simple */
+#define OQS_SIG_alg_sphincs_shake256_192f_simple "SPHINCS+-SHAKE256-192f-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-192s-robust */
+#define OQS_SIG_alg_sphincs_shake256_192s_robust "SPHINCS+-SHAKE256-192s-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-192s-simple */
+#define OQS_SIG_alg_sphincs_shake256_192s_simple "SPHINCS+-SHAKE256-192s-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-256f-robust */
+#define OQS_SIG_alg_sphincs_shake256_256f_robust "SPHINCS+-SHAKE256-256f-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-256f-simple */
+#define OQS_SIG_alg_sphincs_shake256_256f_simple "SPHINCS+-SHAKE256-256f-simple"
+/** Algorithm identifier for SPHINCS+-SHAKE256-256s-robust */
+#define OQS_SIG_alg_sphincs_shake256_256s_robust "SPHINCS+-SHAKE256-256s-robust"
+/** Algorithm identifier for SPHINCS+-SHAKE256-256s-simple */
+#define OQS_SIG_alg_sphincs_shake256_256s_simple "SPHINCS+-SHAKE256-256s-simple"
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_ALG_IDENTIFIER_END
 // EDIT-WHEN-ADDING-SIG
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_ALGS_LENGTH_START
 /** Number of algorithm identifiers above (including default). */
-#define OQS_SIG_algs_length 13
-/** The default signature. Different on Windows because qTESLA is not yet supported. */
-#if defined(_WIN32)
-#define OQS_SIG_DEFAULT OQS_SIG_alg_picnic_L1_FS
-#else
-#define OQS_SIG_DEFAULT OQS_SIG_alg_qTESLA_I
-#endif
+#define OQS_SIG_algs_length 63
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_ALGS_LENGTH_END
 
 /**
  * Returns identifiers for available signature schemes in liboqs.  Used with OQS_SIG_new.
@@ -81,7 +184,15 @@ OQS_API const char *OQS_SIG_alg_identifier(size_t i);
  *
  * @return The number of signature mechanisms.
  */
-OQS_API int OQS_SIG_alg_count();
+OQS_API int OQS_SIG_alg_count(void);
+
+/**
+ * Indicates whether the specified algorithm was enabled at compile-time or not.
+ *
+ * @param[in] method_name Name of the desired algorithm; one of the names in `OQS_SIG_algs`.
+ * @return 1 if enabled, 0 if disabled or not found
+ */
+OQS_API int OQS_SIG_alg_is_enabled(const char *method_name);
 
 /**
  * Signature schemes object
@@ -111,8 +222,6 @@ typedef struct OQS_SIG {
 	size_t length_secret_key;
 	/** The (maximum) length, in bytes, of signatures for this signature scheme. */
 	size_t length_signature;
-
-	// clang-format off
 
 	/**
 	 * Keypair generation algorithm.
@@ -154,7 +263,6 @@ typedef struct OQS_SIG {
 	 * @return OQS_SUCCESS or OQS_ERROR
 	 */
 	OQS_STATUS (*verify)(const uint8_t *message, size_t message_len, const uint8_t *signature, size_t signature_len, const uint8_t *public_key);
-	// clang-format on
 
 } OQS_SIG;
 
@@ -220,9 +328,27 @@ OQS_API OQS_STATUS OQS_SIG_verify(const OQS_SIG *sig, const uint8_t *message, si
  */
 OQS_API void OQS_SIG_free(OQS_SIG *sig);
 
+#ifdef OQS_ENABLE_SIG_PICNIC
 #include <oqs/sig_picnic.h>
-#include <oqs/sig_qtesla.h>
+#endif /* OQS_ENABLE_SIG_PICNIC */
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_INCLUDE_START
+#ifdef OQS_ENABLE_SIG_DILITHIUM
 #include <oqs/sig_dilithium.h>
+#endif /* OQS_ENABLE_SIG_DILITHIUM */
+#ifdef OQS_ENABLE_SIG_FALCON
+#include <oqs/sig_falcon.h>
+#endif /* OQS_ENABLE_SIG_FALCON */
+#ifdef OQS_ENABLE_SIG_RAINBOW
+#include <oqs/sig_rainbow.h>
+#endif /* OQS_ENABLE_SIG_RAINBOW */
+#ifdef OQS_ENABLE_SIG_SPHINCS
+#include <oqs/sig_sphincs.h>
+#endif /* OQS_ENABLE_SIG_SPHINCS */
+///// OQS_COPY_FROM_PQCLEAN_FRAGMENT_INCLUDE_END
 // EDIT-WHEN-ADDING-SIG
 
-#endif // __OQS_SIG_H
+#if defined(__cplusplus)
+} // extern "C"
+#endif
+
+#endif // OQS_SIG_H

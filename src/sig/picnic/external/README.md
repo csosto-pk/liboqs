@@ -3,17 +3,17 @@ Picnic: Post-Quantum Signatures
 
 The Picnic signature scheme is a family of digital signature schemes secure against attacks by quantum computers. This repository contains an optimized implementation of these schemes. The scheme and parameter sets are specified in the [Picnic Specification Document](https://github.com/Microsoft/Picnic/blob/master/spec.pdf). The public API of the library and the serialization format is compatible with the [reference implementation](https://github.com/Microsoft/Picnic).
 
-A research paper describing the signature scheme is also available:
-* **Post-Quantum Zero-Knowledge and Signatures from Symmetric-Key Primitives** Melissa Chase and David Derler and Steven Goldfeder and Claudio Orlandi and Sebastian Ramacher and Christian Rechberger and Daniel Slamanig and Greg Zaverucha. *In Proceedings of ACM CCS 2017*. *[Cryptology ePrint Archive: Report 2017/279](http://eprint.iacr.org/2017/279)*
+Research paper describing the signature scheme and the optimizations are also available:
+* **Post-Quantum Zero-Knowledge and Signatures from Symmetric-Key Primitives** Melissa Chase and David Derler and Steven Goldfeder and Claudio Orlandi and Sebastian Ramacher and Christian Rechberger and Daniel Slamanig and Greg Zaverucha. *In Proceedings of ACM CCS 2017*. *[Cryptology ePrint Archive: Report 2017/279](https://eprint.iacr.org/2017/279)*
+* **Improved Non-Interactive Zero Knowledge with Applications to Post-Quantum Signatures** Jonathan Katz and Vladimir Kolesnikov and Xiao Wang. *In Proceedings of ACM CCS 2018*. *[Cryptology ePrint Archive: Report 2018/475](https://eprint.iacr.org/2018/475)*
+* **Linear Equivalence of Block Ciphers with Partial Non-Linear Layers: Application to LowMC** Itai Dinur and Daniel Kales and Angela Promitzer and Sebastian Ramacher and Christian Rechberger. *In Proceedings of Eurocrypt 2019*. *[Cryptology ePrint Archive: Report 2018/772](https://eprint.iacr.org/2018/772)*
+* **Improving the Performance of the Picnic Signature Scheme** Daniel Kales and Greg Zaverucha. *[Cryptology ePrint Archive: Report 2020/427](https://eprint.iacr.org/2020/427)*
 
-Preprints describing the LowMC optimizations are available too:
-* **Improvements to the Linear Operations of LowMC: A Faster Picnic** Daniel Kales and Léo Perrin and Angela Promitzer and Sebastian Ramacher and Christian Rechberger. *[Cryptology ePrint Archive: Report 2017/1148](http://eprint.iacr.org/2017/1148)*
-* **Linear Equivalence of Block Ciphers with Partial Non-Linear Layers: Application to LowMC** Itai Dinur. *[Cryptology ePrint Archive: Report 2018/772](http://eprint.iacr.org/2018/772)*
 
 Packages
 --------
 
-Packages for Ubuntu bionic and cosmis are available via a [PPA](https://launchpad.net/~s-ramacher/+archive/ubuntu/picnic/).
+Packages for Ubuntu bionic, disco, and eoan are available via a [PPA](https://launchpad.net/~s-ramacher/+archive/ubuntu/picnic/).
 
 Building
 --------
@@ -27,15 +27,15 @@ make
 ```
 
 The cmake based build system supports the following flags:
+* ``WITH_ZKBPP``: Enable ZKB++-based Picnic instances.
+* ``WITH_KKW``: Enable KKW-based Picnic instances.
 * ``WITH_SIMD_OPT``: Enable SIMD optimizations.
 * ``WITH_AVX2``: Use AVX2 if available.
 * ``WITH_SSE2``: Use SSE2 if available.
 * ``WITH_NEON``: Use NEON if available.
 * ``WITH_MARCH_NATIVE``: Build with -march=native -mtune=native (if supported).
 * ``WITH_LTO``: Enable link-time optimization (if supported).
-* ``WITH_MUL_M4RI``: Use methods of four russians for matrix multiplication.
-* ``WITH_LOWMC_OPT={OFF,ORKC,OLLE}``: Enable optimized round key computation (ORKC) or optimized linear layer evaluation (OLLE) optimizations.
-* ``WITH_LOWMC_M1``: Enable LowMC instances with 1 Sbox minimizing the signature sizes.
+* ``WITH_SHA3_IMPL={opt64,avx2,armv8a-neon,s390-cpacf}``: Select SHA3 implementation opt64 (the default, from Keccak code package), avx2 (for AVX2 capable x86-64 systems, from Keccak code package), armv8a-neon (for NEON capable ARM systems, from Keccak code package), s390-cpacf (for IBM z14 and newer systems supporting SHAKE)
 
 Building on Windows
 -------------------
@@ -62,6 +62,8 @@ SET(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc)
 SET(CMAKE_CXX_COMPILER x86_64-w64-mingw32-g++)
 SET(CMAKE_RC_COMPILER x86_64-w64-mingw32-windres)
 SET(CMAKE_DLLTOOL x86_64-w64-mingw32-dlltool)
+# use wine to execute tests
+set(CMAKE_CROSSCOMPILING_EMULATOR wine)
 
 # target environment
 SET(CMAKE_FIND_ROOT_PATH /usr/x86_64-w64-mingw32/)
@@ -75,6 +77,7 @@ Now invoke `cmake` as usual and also pass `-DCMAKE_TOOLCHAIN_FILE=<path>` where 
 If the the cross-built DLLs are intended to be used in a Visual Studio project, some post-processing of the build artifacts is required. Create a file named `libpicnic.def` with the following content:
 ```
 EXPORTS
+picnic_clear_private_key
 picnic_get_param_name
 picnic_get_private_key_size
 picnic_get_public_key_size
